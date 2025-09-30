@@ -259,7 +259,7 @@ class CSAC(OffPolicyAlgorithm):
                 self.ent_coef_optimizer.step()
 
             # Lagrangian multiplier for constraints
-            lagrange_multiplier = th.exp(self.log_lagrange_multiplier.detach())
+            lagrange_multiplier = th.clamp(th.exp(self.log_lagrange_multiplier.detach()), max=15.0)
 
             # Calculate constraint cost (if cost function is provided)
             constraint_cost = th.zeros(batch_size, 1, device=self.device)
